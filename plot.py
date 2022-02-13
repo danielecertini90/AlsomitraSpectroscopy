@@ -3,9 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import seaborn as sb
+plt.rcParams['font.size'] = 24
+plt.rcParams['font.family'] = 'Times New Roman'
 
 # Read in the file
-df = pd.read_csv('seed/XYZ_S1.dat', sep='\t', skiprows=[0,1], names=['EM','EX','I'])
+directoryname = '/Users/danielecertini/Desktop/PhD_University_of_Edinburgh/Alsomitra_macrocarpa/SpectrometerKingsCollegeLondonMahdi/AlsomitraWing/'
+filename = 'XYZ_S1.dat'
+df = pd.read_csv(directoryname+filename, sep='\t', skiprows=[0,1], names=['EM','EX','I'])
 
 wave_low = 600
 wave_high = 900
@@ -69,20 +73,18 @@ fig1, axs1 = plt.subplots(1)
 fig2, axs2 = plt.subplots(1)
 fig3, axs3 = plt.subplots(1)
 # Plot Slice
-axs1.plot(xVals, yVals)
-axs1.set_title('Intensity of Reflected Light (Incident = 850-860nm)')
+axs1.plot(xVals, yVals, 'k-')
 axs1.set_xlabel('Wavelength of Reflected Light [nm]')
 axs1.set_ylabel('[Arb]')
+
+plt.savefig(directoryname+'XYZ_R1_seed_plots/IntensityOfReflectedLight.png', dpi=300, bbox_inches="tight", pad_inches=0, transparent=True)
 # Plot 3D Log Scale
-sb.heatmap( df, ax=axs2, norm=LogNorm(vmin=100000, vmax = 10000000) )
-axs2.set_title('Intensity of Reflected Light vs Incident Light')
+sb.heatmap( df, ax=axs2, norm=LogNorm(vmin=100000, vmax = 10000000), cmap='viridis')
 axs2.set_xlabel('Wavelength of Incident Light [nm]')
 axs2.set_ylabel('Wavelength of Reflected Light [nm]')
 # Plot 3D Normal Scale
-sb.heatmap( df, ax=axs3)
-axs3.set_title('Intensity of Reflected Light vs Incident Light')
+sb.heatmap( df, ax=axs3, cmap='viridis')
 axs3.set_xlabel('Wavelength of Incident Light [nm]')
 axs3.set_ylabel('Wavelength of Reflected Light [nm]')
 plt.tight_layout()
 
-plt.show()
